@@ -4,20 +4,15 @@
   </head>
   <body>
     我是ReportPortal
-    <textarea id="txt1" style="width: 100%; height: 30px"></textarea>
-
+    <textarea id="txt1" style="width: 100%; height: 50px"></textarea>
+    <br /><br />
     <iframe src="powerbi.html" width="100%" height="50%"></iframe>
-    <!-- <iframe src="reportControl1.html" width="100%" height="50%"></iframe> -->
 
     <script>
-      window.onload = function () {
-        var txt1 = document.getElementById("txt1");
-        var iframe1 = document.getElementById("iframe1");
-        function startSendPos() {
-          navigator.geolocation.watchPosition(
+      window.top.addEventListener("message", function (e) {
+        if (e.data.type === "askForGeoLocation") {
+          navigator.geolocation.getCurrentPosition(
             function (res) {
-              console.log("get geolocation");
-
               let latitude = res.coords.latitude;
               let longitude = res.coords.longitude;
 
@@ -29,8 +24,7 @@
                 },
               };
 
-              // window.frames[0].postMessage(json, "*");
-              window.top.postMessage(json, "*");
+              e.source.postMessage(json, "*");
 
               txt1.value = "发送位置: " + JSON.stringify(json) + "\n";
             },
@@ -42,8 +36,7 @@
             }
           );
         }
-        startSendPos();
-      };
+      });
     </script>
   </body>
 </html>
