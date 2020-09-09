@@ -29,7 +29,7 @@
               txt1.value = "发送位置: " + JSON.stringify(json) + "\n";
             },
             function (e) {
-              console.log("error", e);
+              txt1.value = "error: " + e.message + "\n";
             },
             {
               enableHighAccuracy: true,
